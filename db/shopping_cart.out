@@ -1,0 +1,522 @@
+--
+-- PostgreSQL database cluster dump
+--
+
+SET default_transaction_read_only = off;
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+
+--
+-- Roles
+--
+
+CREATE ROLE "APP";
+ALTER ROLE "APP" WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'md53833fb0b6b6375c9ed70f5a3cde420d8';
+CREATE ROLE "APPLICATION_USER";
+ALTER ROLE "APPLICATION_USER" WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'md5ebf828f210bdb5b9f88b21d61f300e72';
+CREATE ROLE "DBA";
+ALTER ROLE "DBA" WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION NOBYPASSRLS PASSWORD 'md5ce38e8d2b6eae1913c7f443f92bad3ac';
+CREATE ROLE app;
+ALTER ROLE app WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS;
+CREATE ROLE application;
+ALTER ROLE application WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'md51d79ce0b61a9807a5afc4829a24a5b7e';
+CREATE ROLE postgres;
+ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS PASSWORD 'md5f3ff05c9eb95c00a6fc6408479b4b049';
+
+
+
+
+
+
+--
+-- Databases
+--
+
+--
+-- Database "template1" dump
+--
+
+\connect template1
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.2 (Debian 12.2-2.pgdg100+1)
+-- Dumped by pg_dump version 12.2 (Debian 12.2-2.pgdg100+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- PostgreSQL database dump complete
+--
+
+--
+-- Database "postgres" dump
+--
+
+\connect postgres
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.2 (Debian 12.2-2.pgdg100+1)
+-- Dumped by pg_dump version 12.2 (Debian 12.2-2.pgdg100+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- PostgreSQL database dump complete
+--
+
+--
+-- Database "shopping_cart" dump
+--
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.2 (Debian 12.2-2.pgdg100+1)
+-- Dumped by pg_dump version 12.2 (Debian 12.2-2.pgdg100+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: shopping_cart; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE shopping_cart WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'en_US.utf8' LC_CTYPE = 'en_US.utf8';
+
+
+ALTER DATABASE shopping_cart OWNER TO postgres;
+
+\connect shopping_cart
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: dev; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA dev;
+
+
+ALTER SCHEMA dev OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: campaign_table; Type: TABLE; Schema: dev; Owner: DBA
+--
+
+CREATE TABLE dev.campaign_table (
+    campaign_id bigint NOT NULL,
+    discount numeric,
+    category_id bigint,
+    minimum_quantity integer,
+    discount_type character varying(10)
+);
+
+
+ALTER TABLE dev.campaign_table OWNER TO "DBA";
+
+--
+-- Name: cart_item_table; Type: TABLE; Schema: dev; Owner: DBA
+--
+
+CREATE TABLE dev.cart_item_table (
+    cart_item_id bigint NOT NULL,
+    cart_id bigint NOT NULL,
+    product_id bigint NOT NULL,
+    quantity integer NOT NULL,
+    discount numeric,
+    price numeric,
+    category_id bigint
+);
+
+
+ALTER TABLE dev.cart_item_table OWNER TO "DBA";
+
+--
+-- Name: cart_table; Type: TABLE; Schema: dev; Owner: DBA
+--
+
+CREATE TABLE dev.cart_table (
+    cart_id bigint NOT NULL,
+    user_id bigint NOT NULL
+);
+
+
+ALTER TABLE dev.cart_table OWNER TO "DBA";
+
+--
+-- Name: category_table; Type: TABLE; Schema: dev; Owner: DBA
+--
+
+CREATE TABLE dev.category_table (
+    category_id bigint NOT NULL,
+    category_parent_id bigint,
+    category_title character varying(400) NOT NULL
+);
+
+
+ALTER TABLE dev.category_table OWNER TO "DBA";
+
+--
+-- Name: coupon_table; Type: TABLE; Schema: dev; Owner: DBA
+--
+
+CREATE TABLE dev.coupon_table (
+    coupon_id bigint NOT NULL,
+    minimum_amount numeric NOT NULL,
+    discount numeric NOT NULL,
+    discount_type character varying(10)
+);
+
+
+ALTER TABLE dev.coupon_table OWNER TO "DBA";
+
+--
+-- Name: hibernate_sequence; Type: SEQUENCE; Schema: dev; Owner: DBA
+--
+
+CREATE SEQUENCE dev.hibernate_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE dev.hibernate_sequence OWNER TO "DBA";
+
+--
+-- Name: product_table; Type: TABLE; Schema: dev; Owner: DBA
+--
+
+CREATE TABLE dev.product_table (
+    product_id bigint NOT NULL,
+    product_title character varying(400),
+    product_price numeric,
+    category_id bigint
+);
+
+
+ALTER TABLE dev.product_table OWNER TO "DBA";
+
+--
+-- Data for Name: campaign_table; Type: TABLE DATA; Schema: dev; Owner: DBA
+--
+
+COPY dev.campaign_table (campaign_id, discount, category_id, minimum_quantity, discount_type) FROM stdin;
+13	5	1	2	RATE
+\.
+
+
+--
+-- Data for Name: cart_item_table; Type: TABLE DATA; Schema: dev; Owner: DBA
+--
+
+COPY dev.cart_item_table (cart_item_id, cart_id, product_id, quantity, discount, price, category_id) FROM stdin;
+27	12	2	21	\N	315	1
+32	12	31	3	\N	15	1
+35	12	34	3	\N	15	33
+\.
+
+
+--
+-- Data for Name: cart_table; Type: TABLE DATA; Schema: dev; Owner: DBA
+--
+
+COPY dev.cart_table (cart_id, user_id) FROM stdin;
+6	1
+12	2
+15	5
+39	6
+40	7
+\.
+
+
+--
+-- Data for Name: category_table; Type: TABLE DATA; Schema: dev; Owner: DBA
+--
+
+COPY dev.category_table (category_id, category_parent_id, category_title) FROM stdin;
+1	\N	kids
+33	\N	giyim
+37	\N	uzay
+\.
+
+
+--
+-- Data for Name: coupon_table; Type: TABLE DATA; Schema: dev; Owner: DBA
+--
+
+COPY dev.coupon_table (coupon_id, minimum_amount, discount, discount_type) FROM stdin;
+14	50	5	AMOUNT
+\.
+
+
+--
+-- Data for Name: product_table; Type: TABLE DATA; Schema: dev; Owner: DBA
+--
+
+COPY dev.product_table (product_id, product_title, product_price, category_id) FROM stdin;
+2	oyuncak top	15	1
+3	oyuncak araba	15	1
+31	oyuncak bebek	5	1
+34	gömlek	5	33
+36	gömlek	5	33
+38	uzay gemisi	5000	33
+\.
+
+
+--
+-- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: dev; Owner: DBA
+--
+
+SELECT pg_catalog.setval('dev.hibernate_sequence', 40, true);
+
+
+--
+-- Name: campaign_table campaign_table_pk; Type: CONSTRAINT; Schema: dev; Owner: DBA
+--
+
+ALTER TABLE ONLY dev.campaign_table
+    ADD CONSTRAINT campaign_table_pk PRIMARY KEY (campaign_id);
+
+
+--
+-- Name: cart_item_table cart_item_table_pk; Type: CONSTRAINT; Schema: dev; Owner: DBA
+--
+
+ALTER TABLE ONLY dev.cart_item_table
+    ADD CONSTRAINT cart_item_table_pk PRIMARY KEY (cart_item_id);
+
+
+--
+-- Name: cart_table cart_table_pk; Type: CONSTRAINT; Schema: dev; Owner: DBA
+--
+
+ALTER TABLE ONLY dev.cart_table
+    ADD CONSTRAINT cart_table_pk PRIMARY KEY (cart_id);
+
+
+--
+-- Name: category_table category_table_pk; Type: CONSTRAINT; Schema: dev; Owner: DBA
+--
+
+ALTER TABLE ONLY dev.category_table
+    ADD CONSTRAINT category_table_pk PRIMARY KEY (category_id);
+
+
+--
+-- Name: coupon_table coupon_table_pk; Type: CONSTRAINT; Schema: dev; Owner: DBA
+--
+
+ALTER TABLE ONLY dev.coupon_table
+    ADD CONSTRAINT coupon_table_pk PRIMARY KEY (coupon_id);
+
+
+--
+-- Name: product_table product_table_pk; Type: CONSTRAINT; Schema: dev; Owner: DBA
+--
+
+ALTER TABLE ONLY dev.product_table
+    ADD CONSTRAINT product_table_pk PRIMARY KEY (product_id);
+
+
+--
+-- Name: campaign_table_campaign_id_uindex; Type: INDEX; Schema: dev; Owner: DBA
+--
+
+CREATE UNIQUE INDEX campaign_table_campaign_id_uindex ON dev.campaign_table USING btree (campaign_id);
+
+
+--
+-- Name: cart_item_table_cart_item_id_uindex; Type: INDEX; Schema: dev; Owner: DBA
+--
+
+CREATE UNIQUE INDEX cart_item_table_cart_item_id_uindex ON dev.cart_item_table USING btree (cart_item_id);
+
+
+--
+-- Name: cart_table_cart_id_uindex; Type: INDEX; Schema: dev; Owner: DBA
+--
+
+CREATE UNIQUE INDEX cart_table_cart_id_uindex ON dev.cart_table USING btree (cart_id);
+
+
+--
+-- Name: cart_table_user_id_uindex; Type: INDEX; Schema: dev; Owner: DBA
+--
+
+CREATE UNIQUE INDEX cart_table_user_id_uindex ON dev.cart_table USING btree (user_id);
+
+
+--
+-- Name: category_table_category_id_uindex; Type: INDEX; Schema: dev; Owner: DBA
+--
+
+CREATE UNIQUE INDEX category_table_category_id_uindex ON dev.category_table USING btree (category_id);
+
+
+--
+-- Name: coupon_table_coupon_id_uindex; Type: INDEX; Schema: dev; Owner: DBA
+--
+
+CREATE UNIQUE INDEX coupon_table_coupon_id_uindex ON dev.coupon_table USING btree (coupon_id);
+
+
+--
+-- Name: product_table_product_id_uindex; Type: INDEX; Schema: dev; Owner: DBA
+--
+
+CREATE UNIQUE INDEX product_table_product_id_uindex ON dev.product_table USING btree (product_id);
+
+
+--
+-- Name: campaign_table campaign_table_category_table_category_id_fk; Type: FK CONSTRAINT; Schema: dev; Owner: DBA
+--
+
+ALTER TABLE ONLY dev.campaign_table
+    ADD CONSTRAINT campaign_table_category_table_category_id_fk FOREIGN KEY (category_id) REFERENCES dev.category_table(category_id);
+
+
+--
+-- Name: cart_item_table cart_item_table_cart_table_cart_id_fk; Type: FK CONSTRAINT; Schema: dev; Owner: DBA
+--
+
+ALTER TABLE ONLY dev.cart_item_table
+    ADD CONSTRAINT cart_item_table_cart_table_cart_id_fk FOREIGN KEY (cart_id) REFERENCES dev.cart_table(cart_id);
+
+
+--
+-- Name: cart_item_table cart_item_table_product_table_product_id_fk; Type: FK CONSTRAINT; Schema: dev; Owner: DBA
+--
+
+ALTER TABLE ONLY dev.cart_item_table
+    ADD CONSTRAINT cart_item_table_product_table_product_id_fk FOREIGN KEY (product_id) REFERENCES dev.product_table(product_id);
+
+
+--
+-- Name: product_table product_table_category_table_category_id_fk; Type: FK CONSTRAINT; Schema: dev; Owner: DBA
+--
+
+ALTER TABLE ONLY dev.product_table
+    ADD CONSTRAINT product_table_category_table_category_id_fk FOREIGN KEY (category_id) REFERENCES dev.category_table(category_id);
+
+
+--
+-- Name: DATABASE shopping_cart; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT CONNECT ON DATABASE shopping_cart TO app;
+GRANT ALL ON DATABASE shopping_cart TO application;
+
+
+--
+-- Name: SCHEMA dev; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT USAGE ON SCHEMA dev TO application;
+
+
+--
+-- Name: TABLE campaign_table; Type: ACL; Schema: dev; Owner: DBA
+--
+
+GRANT ALL ON TABLE dev.campaign_table TO application;
+
+
+--
+-- Name: TABLE cart_item_table; Type: ACL; Schema: dev; Owner: DBA
+--
+
+GRANT ALL ON TABLE dev.cart_item_table TO application;
+
+
+--
+-- Name: TABLE cart_table; Type: ACL; Schema: dev; Owner: DBA
+--
+
+GRANT ALL ON TABLE dev.cart_table TO application;
+
+
+--
+-- Name: TABLE category_table; Type: ACL; Schema: dev; Owner: DBA
+--
+
+GRANT ALL ON TABLE dev.category_table TO application;
+
+
+--
+-- Name: TABLE coupon_table; Type: ACL; Schema: dev; Owner: DBA
+--
+
+GRANT ALL ON TABLE dev.coupon_table TO application;
+
+
+--
+-- Name: SEQUENCE hibernate_sequence; Type: ACL; Schema: dev; Owner: DBA
+--
+
+GRANT ALL ON SEQUENCE dev.hibernate_sequence TO application;
+
+
+--
+-- Name: TABLE product_table; Type: ACL; Schema: dev; Owner: DBA
+--
+
+GRANT ALL ON TABLE dev.product_table TO application;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+--
+-- PostgreSQL database cluster dump complete
+--
+

@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "delivery.cost_per_delivery",
+      "type": "java.lang.String",
+      "description": "Description for delivery.cost_per_delivery."
+  }
+] }
